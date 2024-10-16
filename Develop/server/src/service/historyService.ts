@@ -1,3 +1,6 @@
+import { v4 as uuidv4 } from 'uuid';
+import * as fs from 'fs';
+
 // TODO: Define a City class with name and id properties
 class City {
   name: string;
@@ -11,8 +14,9 @@ class City {
 // TODO: Complete the HistoryService class
 class HistoryService {
   // TODO: Define a read method that reads from the searchHistory.json file
-  private async read() {
+  private async read(): Promise<string> {
     const data = await fs.promises.readFile('searchHistory.json', 'utf-8');
+    return data;
   }
   // TODO: Define a write method that writes the updated cities array to the searchHistory.json file
   private async write(cities: City[]) {
@@ -35,7 +39,7 @@ class HistoryService {
   // * BONUS TODO: Define a removeCity method that removes a city from the searchHistory.json file
   async removeCity(id: string) {
     const cities = await this.getCities();
-    const updatedCities = cities.filter((city) => city.id !== id);
+    const updatedCities = cities.filter((city: City) => city.id !== id);
     await this.write(updatedCities);
   }
 }

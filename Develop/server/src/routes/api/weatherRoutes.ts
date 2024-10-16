@@ -8,7 +8,7 @@ import WeatherService from '../../service/weatherService.js';
 router.post('/', (req: Request, res: Response) => {
   // TODO: GET weather data from city name
   const { city } = req.body;
-  const weatherData = WeatherService.getWeatherData(city);
+  const weatherData = WeatherService.getWeatherForCity(city);
   res.json(weatherData);
   // TODO: save city to search history
   HistoryService.addCity(city);
