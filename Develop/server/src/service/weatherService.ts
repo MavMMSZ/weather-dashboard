@@ -23,9 +23,9 @@ class Weather {
 // TODO: Complete the WeatherService class
 class WeatherService {
   // TODO: Define the baseURL, API key, and city name properties
-  private baseURL: string;
-  private apiKey: string;
-  private cityName: string;
+  private baseURL: string = process.env.BASE_URL || '';
+  private apiKey: string = process.env.API_KEY || '';
+  private cityName: string = '';
   // TODO: Create fetchLocationData method
   private async fetchLocationData(query: string) {
     const response = await fetch(query);
@@ -42,7 +42,7 @@ class WeatherService {
     return `${this.baseURL}/geocode/v1/json?q=${this.cityName}&key=${this.apiKey}`;
   }
   // TODO: Create buildWeatherQuery method
-  private buildWeatherQuery(coordinat/es: Coordinates): string {
+  private buildWeatherQuery(coordinates: Coordinates): string {
     const { lat, lon } = coordinates;
     return `${this.baseURL}/weather/v1/current.json?key=${this.apiKey}&q=${lat},${lon}`;
   }
@@ -66,7 +66,7 @@ class WeatherService {
     return new Weather(temp_f, humidity, wind_mph);
   }
   // TODO: Complete buildForecastArray method
-  private buildForecastArray(currentWeather: Weather, weatherData: any[]) {
+  private buildForecastArray(weatherData: any[]) {
     const forecastArray = weatherData.map((weather) => {
       const { temp_f, humidity, wind_mph } = weather;
       return new Weather(temp_f, humidity, wind_mph);
@@ -79,7 +79,7 @@ class WeatherService {
     const coordinates = await this.fetchAndDestructureLocationData();
     const weatherData = await this.fetchWeatherData(coordinates);
     const currentWeather = this.parseCurrentWeather(weatherData);
-    const forecastArray = this.buildForecastArray(currentWeather, weatherData.forecast.forecastday);
+    const forecastArray = this.buildForecastArray(weatherData.forecast.forecastday);
     return { currentWeather, forecastArray };
   }
 }
