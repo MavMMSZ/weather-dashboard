@@ -6,4 +6,3 @@ import weatherRoutes from './weatherRoutes.js';
 router.use('/weather', weatherRoutes);
 
 export default router;
-
