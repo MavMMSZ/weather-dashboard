@@ -37,9 +37,6 @@ class HistoryService {
   }
   // TODO Define an addCity method that adds a city to the searchHistory.json file
   async addCity(city: string) {
-    if (!city) {
-      throw new Error('City name cannot be blank');
-    }
     const newCity: City = {
       name: city,
       id: uuidv4(),
