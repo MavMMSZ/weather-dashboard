@@ -16,9 +16,6 @@ app.use(express.static('../client/dist'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-
-
-
 // TODO: Implement middleware to connect the routes
 app.use(routes);
 
