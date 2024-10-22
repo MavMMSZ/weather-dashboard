@@ -47,12 +47,13 @@ const fetchWeather = async (cityName: string) => {
     throw new Error('Failed to get weather data');
   }
 
-  const weatherData = await response.json();
+  let weatherData = await response.json();
   console.log('weatherData: ', weatherData);
   if (weatherData === 0) {
     throw new Error('No data found');
   }
-
+// console.log('weatherData: ', weatherData);
+console.log('weatherData[0]: ', weatherData[0]);
   renderCurrentWeather(weatherData[0]);
   renderForecast(weatherData.slice(1));
 };
@@ -84,12 +85,11 @@ Render Functions
 
 const renderCurrentWeather = (currentWeather: any): void => {
   console.log('currentWeather: ', currentWeather);
-  // const { city, date, iconDescription, humidity, icon, tempF, windSpeed } =
-  //   currentWeather;
-  // if (!currentWeather) {
-  //   throw new Error('No weather data found');
-  // }
-  const { city = 'unknown city', date = 'unknown date', icon = 'unknown icon', iconDescription = 'unknown description', tempF = 'unknown temp', windSpeed = 'unknown wind', humidity = 'unknown humidity' } = currentWeather;
+  if (!currentWeather) {
+    throw new Error('No currentweather data found');
+  }
+  let { city, date, iconDescription, humidity, icon, tempF, windSpeed } =
+    currentWeather;
   // convert the following to typescript
   heading.textContent = `${city} (${date})`;
   weatherIcon.setAttribute(
