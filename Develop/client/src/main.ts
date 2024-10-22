@@ -43,9 +43,15 @@ const fetchWeather = async (cityName: string) => {
     body: JSON.stringify({ cityName }),
   });
 
-  const weatherData = await response.json();
+  if (!response.ok) {
+    throw new Error('Failed to get weather data');
+  }
 
+  const weatherData = await response.json();
   console.log('weatherData: ', weatherData);
+  if (weatherData === 0) {
+    throw new Error('No data found');
+  }
 
   renderCurrentWeather(weatherData[0]);
   renderForecast(weatherData.slice(1));
@@ -77,9 +83,13 @@ Render Functions
 */
 
 const renderCurrentWeather = (currentWeather: any): void => {
-  const { city, date, icon, iconDescription, tempF, windSpeed, humidity } =
-    currentWeather;
-
+  console.log('currentWeather: ', currentWeather);
+  // const { city, date, iconDescription, humidity, icon, tempF, windSpeed } =
+  //   currentWeather;
+  // if (!currentWeather) {
+  //   throw new Error('No weather data found');
+  // }
+  const { city = 'unknown city', date = 'unknown date', icon = 'unknown icon', iconDescription = 'unknown description', tempF = 'unknown temp', windSpeed = 'unknown wind', humidity = 'unknown humidity' } = currentWeather;
   // convert the following to typescript
   heading.textContent = `${city} (${date})`;
   weatherIcon.setAttribute(
@@ -139,8 +149,8 @@ const renderForecastCard = (forecast: any) => {
   }
 };
 
-const renderSearchHistory = async (searchHistory: any) => {
-  const historyList = await searchHistory.json();
+const renderSearchHistory = async (db: any) => {
+  const historyList = await db.json();
 
   if (searchHistoryContainer) {
     searchHistoryContainer.innerHTML = '';
